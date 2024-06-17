@@ -29,14 +29,17 @@ import GeneratePodcast from "@/components/GeneratePodcast";
 
 import GenerateThumbnail from "@/components/GenerateThumbnail";
 import { Button } from "@/components/ui/button";
-import { Loader } from "lucide-react";
+import { Loader, Podcast } from "lucide-react";
 import { Id } from "@/convex/_generated/dataModel";
+import { useToast } from "@/components/ui/use-toast";
+
 const voiceCategories = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"];
 
 const formSchema = z.object({
   podcastTitle: z.string().min(2),
   podcastDescription: z.string().min(2),
 });
+
 
 const CreatePodcast = () => {
   const [imagePrompt, setImagePrompt] = useState("");
@@ -55,7 +58,7 @@ const CreatePodcast = () => {
   const [voicePrompt, setVoicePrompt] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const { toast } = useToast();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -65,6 +68,28 @@ const CreatePodcast = () => {
     },
   });
 
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    try {
+      setIsSubmitting(true);
+      if (!audioUrl || !imageUrl || !voiceType) {
+        toast({
+          title: "Please generate audio and image",
+        });
+        setIsSubmitting(false);
+        throw new Error("please generate audio and image");
+      }
+      const podcast = await createPodcast({
+
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Error",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+    }
+  }
   return (
     <section className="mt-10 flex flex-col">
       <h1 className="text-20 font-bold text-white-1">Create Podcast</h1>
@@ -82,7 +107,7 @@ const CreatePodcast = () => {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="input-class focus-visible:ring-offset-orange-1"
+                      className="input-class focus-visible:ring-offset-orange-1 text-white-1"
                       placeholder="JSM Pro Podcast"
                       {...field}
                     />
@@ -157,14 +182,21 @@ const CreatePodcast = () => {
               setVoicePrompt={setVoicePrompt}
               voicePrompt={voicePrompt}
               audio={audioUrl}
-              voiceType={voiceType}
+              voiceType={voiceType!}
             />
-            <GenerateThumbnail />
+
+            <GenerateThumbnail
+              setImage={setImageUrl}
+              setImageStorageId={setImageStorageId}
+              image={imageUrl}
+              imagePrompt={imagePrompt}
+              setImagePrompt={setImagePrompt}
+            />
 
             <div className="mt-10 w-full">
               <Button
                 type="submit"
-                className="bg-orange-1 text-white-1 text-16 w-full py-4 font-extrabold transition-all duration-500 hover:bg-black-1"
+                className="text-16 w-full bg-orange-1 py-4 font-extrabold text-white-1 transition-all duration-500 hover:bg-black-1"
               >
                 {isSubmitting ? (
                   <>
