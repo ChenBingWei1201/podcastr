@@ -9,7 +9,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "grand-cricket-672.convex.cloud",
-      }
+      },
+      {
+        protocol: "https",
+        hostname: "img.clerk.com",
+      },
     ],
   },
 };

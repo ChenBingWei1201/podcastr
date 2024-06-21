@@ -3,6 +3,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Credits
+
 https://youtu.be/zfAb95tJvZQ?feature=shared
 
 ## Getting Started
@@ -25,7 +26,7 @@ create a new webhook on clerk dashboard and paste the secret key to `CLERK_WEBHO
 
 go openai playground to create a new api key and paste it to the `OPENAI_API_KEY`
 
-finally, run the development server on [http://localhost:3000](http://localhost:3000) 
+finally, run the development server on [http://localhost:3000](http://localhost:3000)
 
 ```bash
 npm run dev

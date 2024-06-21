@@ -63,8 +63,7 @@ function GenerateThumbnail({
       const blob = new Blob([response], { type: "image/png" });
       handleImage(blob, `thumbnail-${uuidv4()}`);
     } catch (error) {
-      toast({ title: 'Error generating thumbnail', variant: 'destructive' });
-
+      toast({ title: "Error generating thumbnail", variant: "destructive" });
     }
   };
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {

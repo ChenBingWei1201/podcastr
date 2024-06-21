@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import {
@@ -32,6 +32,9 @@ import { Button } from "@/components/ui/button";
 import { Loader, Podcast } from "lucide-react";
 import { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/use-toast";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useRouter } from "next/navigation";
 
 const voiceCategories = ["alloy", "shimmer", "nova", "echo", "fable", "onyx"];
 
@@ -40,8 +43,9 @@ const formSchema = z.object({
   podcastDescription: z.string().min(2),
 });
 
-
 const CreatePodcast = () => {
+  const router = useRouter();
+
   const [imagePrompt, setImagePrompt] = useState("");
   const [imageStorageId, setImageStorageId] = useState<Id<"_storage"> | null>(
     null,
@@ -58,7 +62,11 @@ const CreatePodcast = () => {
   const [voicePrompt, setVoicePrompt] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { toast } = useToast();
+
+  const createPodcast = useMutation(api.podcasts.createPodcast);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -79,8 +87,21 @@ const CreatePodcast = () => {
         throw new Error("please generate audio and image");
       }
       const podcast = await createPodcast({
-
+        podcastTitle: data.podcastTitle,
+        podcastDescription: data.podcastDescription,
+        audioUrl,
+        imageUrl,
+        voiceType,
+        voicePrompt,
+        views: 0,
+        audioDuration,
+        imagePrompt,
+        audioStorageId: audioStorageId!,
+        imageStorageId: imageStorageId!,
       });
+      toast({ title: "Podcast created successfully" });
+      setIsSubmitting(false);
+      router.push("/");
     } catch (error) {
       console.log(error);
       toast({
@@ -95,7 +116,10 @@ const CreatePodcast = () => {
       <h1 className="text-20 font-bold text-white-1">Create Podcast</h1>
 
       <Form {...form}>
-        <form className="mt-12 flex w-full flex-col">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="mt-12 flex w-full flex-col"
+        >
           <div className="flex flex-col gap-[30px] border-b border-black-5 pb-10">
             <FormField
               control={form.control}

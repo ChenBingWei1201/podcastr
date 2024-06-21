@@ -26,7 +26,7 @@ export const generateThumbnailAction = action({
       prompt,
       size: "1024x1024",
       quality: "standard",
-      n: 1
+      n: 1,
     });
     const url = response.data[0].url;
 
@@ -39,4 +39,3 @@ export const generateThumbnailAction = action({
     return buffer;
   },
 });
-
