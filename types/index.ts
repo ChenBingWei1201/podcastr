@@ -40,7 +40,7 @@ export interface PodcastProps {
   authorImageUrl: string;
   voicePrompt: string;
   imagePrompt: string | null;
-  voiceType: string | null;
+  voiceType: string;
   audioDuration: number;
   views: number;
 }
@@ -49,14 +49,6 @@ export interface ProfilePodcastProps {
   podcasts: PodcastProps[];
   listeners: number;
 }
-
-export type VoiceType =
-  | "alloy"
-  | "echo"
-  | "fable"
-  | "onyx"
-  | "nova"
-  | "shimmer";
 
 export interface GeneratePodcastProps {
   voiceType: string;

@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -25,6 +24,14 @@ function PodcastDetails({ params }: { params: { podcastId: Id<"podcasts"> } }) {
   if (!similarPodcasts || !podcast) {
     return <LoaderSpinner />;
   }
+  if (
+    !podcast.audioUrl ||
+    !podcast.imageUrl ||
+    !podcast.imageStorageId ||
+    !podcast.audioStorageId
+  ) {
+    return <></>;
+  }
   return (
     <section className="flex w-full flex-col">
       <header className="mt-9 flex items-center justify-between">
@@ -42,6 +49,10 @@ function PodcastDetails({ params }: { params: { podcastId: Id<"podcasts"> } }) {
       <PodcastDetailPlayer
         isOwner={isOwner}
         podcastId={podcast._id}
+        audioUrl={podcast.audioUrl}
+        imageUrl={podcast.imageUrl}
+        imageStorageId={podcast.imageStorageId}
+        audioStorageId={podcast.audioStorageId}
         {...podcast}
       />
       <p className="text-white-2 text-16 pb-8 pt-[45px] font-medium max-md:text-center">

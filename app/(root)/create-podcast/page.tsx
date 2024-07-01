@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import {
@@ -29,7 +29,7 @@ import GeneratePodcast from "@/components/GeneratePodcast";
 
 import GenerateThumbnail from "@/components/GenerateThumbnail";
 import { Button } from "@/components/ui/button";
-import { Loader, Podcast } from "lucide-react";
+import { Loader } from "lucide-react";
 import { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation } from "convex/react";

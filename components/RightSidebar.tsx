@@ -2,12 +2,10 @@
 
 import { SignedIn, useUser, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import React from "react";
 import Image from "next/image";
 import Header from "./Header";
 import Carousel from "./Carousel";
 import { useQuery } from "convex/react";
-import { Podcast } from "lucide-react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
 import LoaderSpiner from "./LoaderSpinner";
@@ -41,13 +39,13 @@ function RightSidebar() {
         <Header headerTitle="Fans Like You" />
         <Carousel fansLikeDetail={topPodcasters!} />
       </section>
-      <section className="flex flex-col gap-8 pt-12">
+      <section className="flex flex-col gap-8 pt-12 ">
         <Header headerTitle="Top Podcastrs" />
         <div className="flex flex-col gap-6">
           {topPodcasters?.slice(0, 4).map((podcaster) => (
             <div
               key={podcaster._id}
-              className="flex cursor-pointer justify-between"
+              className="flex cursor-pointer justify-between transition-transform duration-300 ease-in-out transform hover:scale-105"
               onClick={() => router.push(`/profile/${podcaster.clerkId}`)}
             >
               <figure className="flex items-center gap-2">
