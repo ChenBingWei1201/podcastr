@@ -28,7 +28,7 @@ export const generateThumbnailAction = action({
       quality: "standard",
       n: 1,
     });
-    const url = response.data[0].url;
+    const url = response.data![0].url;
 
     if (!url) {
       throw new Error("Error generating thumbnail");
